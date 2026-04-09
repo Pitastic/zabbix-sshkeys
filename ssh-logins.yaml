@@ -14,6 +14,7 @@ zabbix_export:
           name: 'SSH PubKey Login Historie'
           type: TRAP
           key: ssh.auth.history
+          history: 365d
           value_type: CHAR
           valuemap:
             name: 'SSH Key Owner'
@@ -23,14 +24,40 @@ zabbix_export:
         - uuid: da4e2ad7904143f59afa9936a2c2dfc9
           name: 'SSH Log Sync Trigger'
           key: ssh.run_sync
-          history: 365d
+          history: '0'
+          trends: '0'
           description: 'Ticks the trapper script on the host which is reading and sending the values for the ssh.auth.history Item.'
           tags:
             - tag: application
               value: ssh
+      discovery_rules:
+        - uuid: 150de1344ec34fabb769c9fc8fc326ae
+          name: 'SSH Session Discovery'
+          key: ssh.session.discovery
+          delay: 15m
+          lifetime_type: DELETE_NEVER
+          description: 'List all ssh session numbers as single items'
+          item_prototypes:
+            - uuid: 2a6be097d50f4851b1d9297a18013d52
+              name: 'SSH Session ID: {#SSH_SESSION}'
+              type: TRAP
+              key: 'ssh.session.status[{#SSH_SESSION}]'
+              history: 365d
+              value_type: CHAR
+              description: 'Status of ssh session. Publickey or closed. Password logins are empty.'
+              valuemap:
+                name: 'SSH Key Owner'
+              tags:
+                - tag: application
+                  value: ssh
+          lld_macro_paths:
+            - lld_macro: '{#SSH_SESSION}'
+              path: $.sessionid
       valuemaps:
         - uuid: 4ef528765bde4bd0901a19120b85b85a
           name: 'SSH Key Owner'
           mappings:
+            - value: closed
+              newvalue: 'Session beendet'
             - type: DEFAULT
               newvalue: 'unknown User'

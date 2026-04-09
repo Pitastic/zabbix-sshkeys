@@ -4,6 +4,8 @@ This user parameter will parsed the `/var/log/auth.log` file for successful logi
 
 The parser gets triggered by another Zabbix Agent Item which sends a request and forks Zabbix Sender in his answer.
 
+As a result you will get an item with a login history of ssh pubkeys and one item per ssh session which helds the used pubkey or "closed" if already closed.
+
 ## Prequsites
 
 - `zabbix-agent2` needs to be installed (assumed in `/etc/zabbix`)
@@ -29,9 +31,9 @@ mkdir /etc/zabbix/scripts > /dev/null 2>&1
 chown zabbix: /etc/zabbix/scripts
 
 # Copy script and change permission
-cp ssh-login-trapper.sh /etc/zabbix/scripts/
-chown zabbix: /etc/zabbix/scripts/ssh-login-trapper.sh
-chmod ug+x /etc/zabbix/scripts/ssh-login-trapper.sh
+cp *.sh /etc/zabbix/scripts/
+chown zabbix: /etc/zabbix/scripts/ssh-login-*.sh
+chmod ug+x /etc/zabbix/scripts/ssh-login-*.sh
 
 # Copy the config and populate the new parameter in it
 cp ssh-logins.conf /etc/zabbix/zabbix_agent.d/ssh-logins.conf
