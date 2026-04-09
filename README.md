@@ -23,7 +23,7 @@ As a result you will get an item with a login history of ssh pubkeys and one ite
 
 ## Setup
 
-Assuming your in the folder of the cloned Repo and your agent is in `/etc/zabbix`:
+Assuming your are in the folder of the cloned Repo and your agent is in `/etc/zabbix`:
 
 ```sh
 # Create scripts folder if not exists and change permission
