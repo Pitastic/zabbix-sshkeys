@@ -1,0 +1,36 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Templates/Applications
+  templates:
+    - uuid: 6e5a3bbf09f9445b9a09392c4a87da00
+      template: 'SSH Logins'
+      name: 'SSH Logins'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: da0b72ff9703442ca1589f43f6f4c981
+          name: 'SSH PubKey Login Historie'
+          type: TRAP
+          key: ssh.auth.history
+          value_type: CHAR
+          valuemap:
+            name: 'SSH Key Owner'
+          tags:
+            - tag: application
+              value: ssh
+        - uuid: da4e2ad7904143f59afa9936a2c2dfc9
+          name: 'SSH Log Sync Trigger'
+          key: ssh.run_sync
+          history: 365d
+          description: 'Ticks the trapper script on the host which is reading and sending the values for the ssh.auth.history Item.'
+          tags:
+            - tag: application
+              value: ssh
+      valuemaps:
+        - uuid: 4ef528765bde4bd0901a19120b85b85a
+          name: 'SSH Key Owner'
+          mappings:
+            - type: DEFAULT
+              newvalue: 'unknown User'
