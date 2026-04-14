@@ -14,7 +14,11 @@ awk -v host="$Z_HOSTNAME" '
     split(parts[2], id_parts, " ");
     sess_id = id_parts[1];
 
-    ts = $1; "date -d \"" ts "\" +%s" | getline unix_ts; close("date -d \"" ts "\" +%s")
+    # Calc timestamp
+    ts = $1
+    cmd = "date -d \"" ts "\" +%s"
+    cmd | getline unix_ts
+    close(cmd)
     
     # 1. Set key in login history item
     printf "%s ssh.auth.history %s %s\n", host, unix_ts, last_key
