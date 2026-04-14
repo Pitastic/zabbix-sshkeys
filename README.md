@@ -36,7 +36,7 @@ chown zabbix: /etc/zabbix/scripts/ssh-login-*.sh
 chmod ug+x /etc/zabbix/scripts/ssh-login-*.sh
 
 # Copy the config and populate the new parameter in it
-cp ssh-logins.conf /etc/zabbix/zabbix_agent.d/ssh-logins.conf
+cp ssh-logins.conf /etc/zabbix/zabbix_agent2.d/ssh-logins.conf
 systemctl restart zabbix-agent2
 ```
 
